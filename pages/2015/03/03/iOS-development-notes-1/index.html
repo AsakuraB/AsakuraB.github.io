@@ -56,7 +56,7 @@
     <p>最近公司出现了一些人事变动，把我调到了另外一个Team。手头的工作完全停掉了，接盘另外一个项目。</p>
 <p>所以抽了1周的时间，收尾一下之前的工作，做一个总结。</p>
 <p>从2014年12月15日正式开始，到2015年3月2日截止。项目总代码59042行，其中第三方库45998行。手写约13000行的样子。还在抽空重构中，目测还能减少大概1000行代码的样子。</p>
-<p>以下自己用到和学到的一些知识点吧。</p>
+<p>总结一下自己用到和学到的一些知识点吧。</p>
 <h3>1.UINavigationBar颜色设置</h3>
 <p><img alt="UINavigationBar颜色设置" src="http://ww3.sinaimg.cn/large/6395d342gw1eptp2j5kwnj20hs04uq35.jpg" /></p>
 <div class="highlight"><pre><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">barTintColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
@@ -93,7 +93,7 @@
 <p>在UITableViewController中，当需要弹出UIPickerView的时候，总是不知道应该把这个Picker添加到哪个图层上。因为<code>"self.view = self.tableview"</code>，当你使用<code>[self.view addSubview:pickerView];</code>时，PickerView会添加到<code>"ScrollView"</code>上，并且跟随TableView的上下滚动而滑动。</p>
 <p>我们想要的效果是Picker悬浮于屏幕底部，不跟随TableView滚动的。最标准的效果当然是借鉴iOS系统自带App了。</p>
 <p>通讯录App中，我惊讶的发现这个Picker不仅可以一直悬浮，当从Picker上方滑动至Picker中，这个Picker会像键盘一样被拖动着一起往下滑。当时我的表情是这样的</p>
-<p><img alt="aaa" src="http://ww3.sinaimg.cn/mw690/6395d342jw1epttvgdex5j202a023mx3.jpg&quot;aaa&quot;" /></p>
+<p><img alt="" src="http://ww3.sinaimg.cn/mw690/6395d342jw1epttvgdex5j202a023mx3.jpg" /></p>
 <p>为何这个Picker可以这么叼？这是加在哪个层才可以达到这样的效果？</p>
 <p>搜了半天最终在stackoverflow中找到了<a href="http://stackoverflow.com/questions/1275633/elegantly-replace-iphone-keyboard-with-uipickerview">答案</a>：</p>
 <div class="highlight"><pre>Just set the UITextField&#39;s inputView property to a UIPickerView.
