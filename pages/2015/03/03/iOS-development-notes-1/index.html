@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Icyjade_White">
+  <meta name="description" content="Posts and writings by Icyjade_White">
+
+
+<meta name="keywords" content="iOS">
+
+  <title>
+    冰玉其白
+&ndash; 近期学会的新知识总结  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="">
+        <img src="/theme/images/logo.png" alt="logo">
+      </a>
+      <h2><a href="">Icyjade_White</a></h2>
+      <p></p>
+      <ul>
+        <li><a href="https://github.com/AsakuraB" target="_blank">Github</a></li>
+        <li><a href="https://twitter.com/icyjade_white" target="_blank">Twitter</a></li>
+        <li><a href="http://weibo.com/oldwhite1115" target="_blank">Weibo</a></li>
+        <li><a href="https://www.facebook.com/larrylmx" target="_blank">Facebook</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="">Index</a> &brvbar; <a href="/archives.html">Archives</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="/pages/2015/03/03/iOS-development-notes-1/">近期学会的新知识总结</a></h3>
+  </div>
+  <div class="article_text">
+    <p>最近公司出现了一些人事变动，把我调到了另外一个Team。手头的工作完全停掉了，接盘另外一个项目。</p>
+<p>所以抽了1周的时间，收尾一下之前的工作，做一个总结。</p>
+<p>从2014年12月15日正式开始，到2015年3月2日截止。项目总代码59042行，其中第三方库45998行。手写约13000行的样子。还在抽空重构中，目测还能减少大概1000行代码的样子。</p>
+<p>以下自己用到和学到的一些知识点吧。</p>
+<h3>1.UINavigationBar颜色设置</h3>
+<p><img alt="UINavigationBar颜色设置" src="http://ww3.sinaimg.cn/large/6395d342gw1eptp2j5kwnj20hs04uq35.jpg" /></p>
+<div class="highlight"><pre><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">barTintColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+<span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">tintColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+<span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setTitleTextAttributes</span><span class="p">:</span><span class="l">@{</span><span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span><span class="l">}</span><span class="p">];</span>
+<span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">translucent</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</pre></div>
+
+
+<ul>
+<li><code>barTintColor</code>: 背景填充颜色</li>
+<li><code>tintColor</code>: 按钮的填充颜色</li>
+<li><code>TitleTextAttributes</code>: 标题文字属性</li>
+<li><code>barStyle</code>: translucent（半透明），opaque（不透明）</li>
+</ul>
+<h3>2.如何用ASIHttpRequest发送PUT,DELETE请求</h3>
+<div class="highlight"><pre><span class="n">ASIFormDataRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">ASIFormDataRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+<span class="p">[</span><span class="n">request</span> <span class="nl">setPostValue</span><span class="p">:</span><span class="n">value</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+<span class="p">[</span><span class="n">request</span> <span class="nl">setRequestMethod</span><span class="p">:</span><span class="s">@&quot;PUT&quot;</span><span class="p">];</span>
+<span class="p">[</span><span class="n">request</span> <span class="n">startAsynchronous</span><span class="p">];</span>
+</pre></div>
+
+
+<p>同理</p>
+<div class="highlight"><pre><span class="n">ASIHTTPRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">ASIHTTPRequest</span> <span class="nl">requestWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">]];</span>
+<span class="p">[</span><span class="n">request</span> <span class="nl">setRequestMethod</span><span class="p">:</span><span class="s">@&quot;DELETE&quot;</span><span class="p">];</span>
+<span class="p">[</span><span class="n">request</span> <span class="n">startAsynchronous</span><span class="p">];</span>
+</pre></div>
+
+
+<p>总的来说就是PUT=POST，DELETE=GET。</p>
+<h3>3.这个UIDatePicker（UIPickerView）加载于哪个图层？</h3>
+<p><img alt="" src="http://ww1.sinaimg.cn/mw690/6395d342gw1eptqw3w2jdj204v08nwej.jpg" /></p>
+<p>在UITableViewController中，当需要弹出UIPickerView的时候，总是不知道应该把这个Picker添加到哪个图层上。因为<code>"self.view = self.tableview"</code>，当你使用<code>[self.view addSubview:pickerView];</code>时，PickerView会添加到<code>"ScrollView"</code>上，并且跟随TableView的上下滚动而滑动。</p>
+<p>我们想要的效果是Picker悬浮于屏幕底部，不跟随TableView滚动的。最标准的效果当然是借鉴iOS系统自带App了。</p>
+<p>通讯录App中，我惊讶的发现这个Picker不仅可以一直悬浮，当从Picker上方滑动至Picker中，这个Picker会像键盘一样被拖动着一起往下滑。当时我的表情是这样的</p>
+<p><img alt="aaa" src="http://ww3.sinaimg.cn/mw690/6395d342jw1epttvgdex5j202a023mx3.jpg&quot;aaa&quot;" /></p>
+<p>为何这个Picker可以这么叼？这是加在哪个层才可以达到这样的效果？</p>
+<p>搜了半天最终在stackoverflow中找到了<a href="http://stackoverflow.com/questions/1275633/elegantly-replace-iphone-keyboard-with-uipickerview">答案</a>：</p>
+<div class="highlight"><pre>Just set the UITextField&#39;s inputView property to a UIPickerView.
+</pre></div>
+
+
+<p>瞬间我感觉大脑就爆炸了。原来这特么是个TextField不是Button或者Label！！原来这个PickerView就是键盘！！这时我的表情是这样的</p>
+<p><img alt="" src="http://ww3.sinaimg.cn/mw690/6395d342jw1eptujziwhoj204o039jrf.jpg" /></p>
+<p>附：inputView property是基于UIResponder的属性。</p>
+<div class="highlight"><pre>@interface UIResponder (UIResponderInputViewAdditions)
+// Called and presented when object becomes first responder.  Goes up the responder chain.
+@property (nonatomic, readonly, retain) UIView *inputView NS_AVAILABLE_IOS(3_2);
+</pre></div>
+
+
+<h3>4.创建一张纯色图片</h3>
+<p><strong>Xcode-NewFile-Source-ObjectiveC File-Category</strong></p>
+<div class="highlight"><pre><span class="c">#import &quot;UIImage+ImageWithColor.h&quot;</span>
+
+<span class="o">+</span> <span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="n">imageWithColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">color</span>
+<span class="p">{</span>
+    <span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">CGContextRef</span> <span class="n">context</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">();</span>
+
+    <span class="n">CGContextSetFillColorWithColor</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="p">[</span><span class="n">color</span> <span class="n">CGColor</span><span class="p">]);</span>
+    <span class="n">CGContextFillRect</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">rect</span><span class="p">);</span>
+
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">image</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>5.把一个Model的所有Property和对应值转化为字典</h3>
+<p><strong>Xcode-NewFile-Source-ObjectiveC File-Category</strong></p>
+<div class="highlight"><pre><span class="c">#import &quot;NSDictionary+DictionaryWithObject.h&quot;</span>
+<span class="c">#import &lt;objc/runtime.h&gt;</span>
+
+<span class="o">+</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">dictionaryWithPropertiesAndValuesOfObject</span><span class="p">:(</span><span class="nb">id</span><span class="p">)</span><span class="n">obj</span>
+<span class="p">{</span>
+    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="nb">dict</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">dictionary</span><span class="p">];</span>
+
+    <span class="n">unsigned</span> <span class="n">count</span><span class="p">;</span>
+    <span class="n">objc_property_t</span> <span class="o">*</span><span class="n">properties</span> <span class="o">=</span> <span class="n">class_copyPropertyList</span><span class="p">([</span><span class="n">obj</span> <span class="n">class</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="n">stringWithUTF8String</span><span class="p">:</span><span class="n">property_getName</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="n">i</span><span class="p">])];</span>
+        <span class="p">[</span><span class="nb">dict</span> <span class="n">setObject</span><span class="p">:[</span><span class="n">obj</span> <span class="n">valueForKey</span><span class="p">:</span><span class="n">key</span><span class="p">]</span> <span class="n">forKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">properties</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="n">dictionaryWithDictionary</span><span class="p">:</span><span class="nb">dict</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>6.在Storyboard中如何自定义Section Header(Footer) View</h3>
+<p>首先在Storyboard中拖一个Cell出来，AutoLayout设置好布局规则。然后：</p>
+<div class="highlight"><pre><span class="p">-</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">viewForHeaderInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">CellIdentifier</span> <span class="o">=</span> <span class="s">@&quot;SectionHeader&quot;</span><span class="p">;</span>
+    <span class="bp">UITableViewCell</span> <span class="o">*</span><span class="n">headerViewCell</span> <span class="o">=</span> <span class="p">[</span><span class="n">tableView</span> <span class="nl">dequeueReusableCellWithIdentifier</span><span class="p">:</span><span class="n">CellIdentifier</span><span class="p">];</span>
+    <span class="c1">//Do What You Want Here...</span>
+
+    <span class="k">return</span> <span class="n">headerViewCell</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>7.自定义Layer某个角的圆角</h3>
+<div class="highlight"><pre><span class="bp">UIView</span> <span class="o">*</span><span class="n">view</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
+<span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+
+<span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">maskPath</span><span class="p">;</span>
+<span class="n">maskPath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span>
+                                 <span class="nl">byRoundingCorners</span><span class="p">:(</span><span class="n">UIRectCornerTopLeft</span> <span class="o">|</span> <span class="n">UIRectCornerBottomLeft</span><span class="p">)</span>
+                                       <span class="nl">cornerRadii</span><span class="p">:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)];</span>
+
+<span class="bp">CAShapeLayer</span> <span class="o">*</span><span class="n">maskLayer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CAShapeLayer</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="n">maskLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+<span class="n">maskLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">maskPath</span><span class="p">.</span><span class="bp">CGPath</span><span class="p">;</span>
+
+<span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">maskLayer</span><span class="p">;</span>
+<span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">view</span><span class="p">];</span>
+</pre></div>
+
+
+<h3>8.动态计算Label高度</h3>
+<div class="highlight"><pre><span class="p">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">heightOfTextForString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span> <span class="nf">andFont:</span><span class="p">(</span><span class="bp">UIFont</span> <span class="o">*</span><span class="p">)</span><span class="nv">font</span> <span class="nf">maxSize:</span><span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nv">size</span>
+<span class="p">{</span>
+    <span class="bp">CGSize</span> <span class="n">sizeOfText</span> <span class="o">=</span> <span class="p">[</span><span class="n">string</span> <span class="nl">boundingRectWithSize</span><span class="p">:</span> <span class="n">size</span>
+                                             <span class="nl">options</span><span class="p">:</span> <span class="p">(</span><span class="n">NSStringDrawingUsesLineFragmentOrigin</span><span class="o">|</span><span class="n">NSStringDrawingUsesFontLeading</span><span class="p">)</span>
+                                          <span class="nl">attributes</span><span class="p">:</span> <span class="p">[</span><span class="bp">NSDictionary</span> <span class="nl">dictionaryWithObject</span><span class="p">:</span><span class="n">font</span>
+                                                                                  <span class="nl">forKey</span><span class="p">:</span><span class="n">NSFontAttributeName</span><span class="p">]</span>
+                                             <span class="nl">context</span><span class="p">:</span> <span class="nb">nil</span><span class="p">].</span><span class="n">size</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">ceilf</span><span class="p">(</span><span class="n">sizeOfText</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>9.UITableViewController一些跟滚动相关的设置</h3>
+<ol>
+<li>只要是UITableViewController，触摸Status Bar就可以回到顶部</li>
+<li>当页面上有TextField或者TextView开始编辑时，编辑区域会自动滚动到键盘上方。</li>
+<li><code>UIScrollViewKeyboardDismissMode</code> 设置TableView的<code>keyboardDismissMode</code>，可以实现当拖动页面的时候，<strong>键盘立即消失并结束编辑</strong>，或<strong>从键盘上方拖动页面至键盘中，把键盘一起拖着往下走并使键盘消失</strong>的效果。</li>
+</ol>
+<h3>10.关于自动布局一篇非常好的教程（Auto Layout）</h3>
+<p>直接贴链接吧，文章太长了。。</p>
+<p><a href="http://www.raywenderlich.com/50317/beginning-auto-layout-tutorial-in-ios-7-part-1">Beginning Auto Layout Tutorial in iOS 7: Part 1</a></p>
+<p><a href="http://www.raywenderlich.com/50319/beginning-auto-layout-tutorial-in-ios-7-part-2">Beginning Auto Layout Tutorial in iOS 7: Part 2</a></p>
+<p>基本就这10个姿势点了，其他一些特别琐碎的随便google一下就有的就没写了。。</p>
+<p>另外买了两本新书，分别是：</p>
+<p><a href="http://www.amazon.cn/gp/product/B00RWORA1O?psc=1&amp;ref_=oh_aui_detailpage_o00_s00">iOS编程(第4版) IOS Programming,4th Edition-The Big Nerd Ranch Guide</a></p>
+<p><a href="http://www.amazon.cn/gp/product/B00NKZCM3U?psc=1&amp;ref_=oh_aui_detailpage_o00_s00">iOS编程实战 IOS 7 Programming Pushing the Limits</a></p>
+<p>看完了来写读书笔记。</p>
+<p>以上！</p>
+<p>Icyjade_White</p>
+<p>2015年03月06日</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: 二 03 三月 2015</p>
+    <p>Category: <a href="/category/ios.html">iOS</a>
+ &ndash; Tags:
+      <a href="/tag/ios.html">iOS</a>    </p>
+  </div>
+
+  <div id="article_comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_identifier = "pages/2015/03/03/iOS-development-notes-1/";
+        (function() {
+             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+             dsq.src = 'http://icyjadewhite.disqus.com/embed.js';
+             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+    </script>
+  </div>
+
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Icyjade_White. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>

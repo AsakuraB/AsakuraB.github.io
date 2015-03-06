@@ -49,6 +49,32 @@
 
 <article>
   <div class="article_title">
+    <h3><a href="/pages/2015/03/03/iOS-development-notes-1/">近期学会的新知识总结</a></h3>
+  </div>
+  <div class="article_text">
+    <p>最近公司出现了一些人事变动，把我调到了另外一个Team。手头的工作完全停掉了，接盘另外一个项目。</p>
+<p>所以抽了1周的时间，收尾一下之前的工作，做一个总结。</p>
+<p>从2014年12月15日正式开始，到2015年3月2日截止。项目总代码59042行，其中第三方库45998行。手写约13000行的样子。还在抽空重构中，目测还能减少大概1000行代码的样子。</p>
+<p>以下自己用到和学到的一些知识点吧。</p>
+<h3>1.UINavigationBar颜色设置</h3>
+<p><img alt="UINavigationBar颜色设置" src="http://ww3.sinaimg.cn/large/6395d342gw1eptp2j5kwnj20hs04uq35.jpg" /></p>
+<div class="highlight"><pre><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">barTintColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+<span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">tintColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+<span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setTitleTextAttributes</span><span class="p">:</span><span class="l">@{</span><span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span><span class="l">}</span><span class="p">];</span>
+<span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">translucent</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</pre></div>
+
+
+<ul>
+<li><code>barTintColor</code>: 背景填充颜色</li>
+<li><code>tintColor</code>: 按钮的填充颜色</li>
+<li><code>TitleTextAttributes</code>: 标题文字属性</li>
+<li><code>barStyle</code>: translucent（半透明 ...</li></ul>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
     <h3><a href="/pages/2015/02/24/weekly-diary-8-52/">周记（8/52-2015）</a></h3>
   </div>
   <div class="article_text">
