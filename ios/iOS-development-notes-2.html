@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Icyjade_White">
+  <meta name="description" content="Posts and writings by Icyjade_White">
+
+
+<meta name="keywords" content="iOS">
+
+  <title>
+    冰玉其白
+&ndash; 《iOS编程(第4版)》读书笔记  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="">
+        <img src="/theme/images/logo.png" alt="logo">
+      </a>
+      <h2><a href="">Icyjade_White</a></h2>
+      <p></p>
+      <ul>
+        <li><a href="https://github.com/AsakuraB" target="_blank">Github</a></li>
+        <li><a href="https://twitter.com/icyjade_white" target="_blank">Twitter</a></li>
+        <li><a href="http://weibo.com/oldwhite1115" target="_blank">Weibo</a></li>
+        <li><a href="https://www.facebook.com/larrylmx" target="_blank">Facebook</a></li>
+        <li><a href="https://cn.linkedin.com/pub/larry-li/a8/481/27" target="_blank">Linkedin</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="">Index</a> &brvbar; <a href="/archives.html">Archives</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="/ios/iOS-development-notes-2.html">《iOS编程(第4版)》读书笔记</a></h3>
+  </div>
+  <div class="article_text">
+    <p>上回说到买了本新书：</p>
+<p><a href="http://www.amazon.cn/gp/product/B00RWORA1O?psc=1&amp;ref_=oh_aui_detailpage_o00_s00">iOS编程(第4版) IOS Programming,4th Edition-The Big Nerd Ranch Guide</a></p>
+<p>大体上可以算是精读完毕。读书过程中记了不少笔记，在这里总结一下。有些东西都是老生常谈的了，就当是巩固加深吧~</p>
+<h3>1.关于MVC的理解</h3>
+<p>当用户和视图对象（Views）产生交互之后，视图首先向控制器对象（Controller）发送消息，控制器更新模型对象(Model)，然后控制器对象从模型对象获取视图“感兴趣”的数据，再根据模型对象的变化更新视图。</p>
+<p>需要注意的是，模型对象和视图对象之间没有直接产生联系，而是由控制器对象负责彼此之间的消息发送和数据传递。</p>
+<h3>2.内存管理特性</h3>
+<p>内存管理特性（Memory management attribute）有四种可选类型：<code>strong</code>、<code>weak</code>、<code>copy</code>、<code>unsafe_unretained</code>。</p>
+<p>对于不指向任何对象的属性（例如<code>int i</code>），不需要做内存管理，这时应选用<code>unsafe_unretained</code>，它表示存取方法直接为实例变量赋值。Apple引入<code>ARC</code>之前曾经使用<code>assign</code>表示这种类型。与弱引用不同，<code>unsafe_unretained</code>类型的指针指向的对象被销毁时，指针不会自动设置为nil，而是成为空指针，因此不安全。但是当处理非对象属性(non-object)时，是不会出现空指针问题的。<code>unsafe_unretained</code>是非对象属性的默认值，所以<code>int i</code>不用明确写出该类型。</p>
+<p><code>strong</code>用于指向Objective-c对象的的默认属性。</p>
+<p><code>weak</code>是为了避免强引用循环。</p>
+<p>当某个属性是指向其他对象的指针，而且该对象的类有可修改的子类（例如<code>NSString</code>/<code>NSMutableString</code>）时，应该将该属性的内存管理特性设置为Copy。</p>
+<h3>3.实现重力感应的视差效果</h3>
+<p>这个效果是类似于手机处于Home页面，晃动手机时，App图标和壁纸之间细微的视差效果。详情见代码：</p>
+<div class="highlight"><pre>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">label</span><span class="p">];</span>
+
+    <span class="bp">UIInterpolatingMotionEffect</span> <span class="o">*</span><span class="n">motionEffect</span><span class="p">;</span>
+    <span class="n">motionEffect</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIInterpolatingMotionEffect</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithKeyPath</span><span class="p">:</span><span class="s">@&quot;center.x&quot;</span> <span class="nl">type</span><span class="p">:</span><span class="n">UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis</span><span class="p">];</span>
+    <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="l">@(</span><span class="o">-</span><span class="mi">100</span><span class="l">)</span><span class="p">;</span>
+    <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mi">100</span><span class="l">)</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">label</span> <span class="nl">addMotionEffect</span><span class="p">:</span><span class="n">motionEffect</span><span class="p">];</span>
+
+    <span class="n">motionEffect</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIInterpolatingMotionEffect</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithKeyPath</span><span class="p">:</span><span class="s">@&quot;center.y&quot;</span> <span class="nl">type</span><span class="p">:</span><span class="n">UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis</span><span class="p">];</span>
+    <span class="n">motionEffect</span><span class="p">.</span><span class="n">minimumRelativeValue</span> <span class="o">=</span> <span class="l">@(</span><span class="o">-</span><span class="mi">100</span><span class="l">)</span><span class="p">;</span>
+    <span class="n">motionEffect</span><span class="p">.</span><span class="n">maximumRelativeValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mi">100</span><span class="l">)</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">label</span> <span class="nl">addMotionEffect</span><span class="p">:</span><span class="n">motionEffect</span><span class="p">];</span>
+</pre></div>
+
+
+<h3>4.NSInteger、NSUInteger</h3>
+<p><code>NSInteger</code>是有符号整形，<code>NSUInteger</code>是无符号整形。苹果现在已经要求所有上架App必须兼容64位架构。拒绝<code>int</code>从我做起！</p>
+<h3>5.代码片段库</h3>
+<p>代码片段库（Code Snippet Library）就是这个东西。可以拖一个到代码里面看看是什么功能。手动自定义的话，直接拖一大段代码进去就好了。设定快捷键，可以用来很方便的输入雷同的代码片段（例如TableView Delegate那几个方法）。每次就不用重复Ctrl_C+V了。</p>
+<p>在斯坦福白胡子老头的教学视频里面，每次他很神奇的随便敲几个字母就出来一大段代码，就是预先自己编辑好的代码片段库。第一次见到就觉得简直是Magic！</p>
+<p><img alt="代码片段库" src="http://ww3.sinaimg.cn/large/6395d342gw1etr8ciop81j207708bt9d.jpg" /></p>
+<h3>6.使用UUID生成无重复字符串</h3>
+<p>很多时候需要生成一个无重复字符串作为某个对象的特定标签。Cocoa Touch提供一种可以生成唯一标识（UUID，也称为GUID）的机制。每一个NSUUID类的对象都表示一个唯一的UUID。UUID是基于当前时间、计数器和硬件标识（通常为无线网卡的MAC地址）等数据计算生成的。</p>
+<p>用法示例：</p>
+<div class="highlight"><pre><span class="bp">NSUUID</span> <span class="o">*</span><span class="n">uuid</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSUUID</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="bp">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="n">uuid</span> <span class="n">UUIDString</span><span class="p">];</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">);</span>
+
+<span class="mi">2015</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mo">05</span> <span class="mo">01</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mf">41.489</span> <span class="n">Test</span><span class="p">[</span><span class="mi">4834</span><span class="o">:</span><span class="mi">1085892</span><span class="p">]</span> <span class="n">E0CC9978</span><span class="o">-</span><span class="n">F266</span><span class="o">-</span><span class="mi">4053</span><span class="o">-</span><span class="mf">9F</span><span class="n">E7</span><span class="o">-</span><span class="n">F2256AD55F45</span>
+</pre></div>
+
+
+<h3>7.限制用户只能拍摄视频</h3>
+<p>首先必须确定设备是否支持视频,然后设置mediaTypes属性指向一个只包含视频标识的数组对象。</p>
+<p>代码如下：</p>
+<div class="highlight"><pre><span class="nd">@import</span> <span class="n">MobileCoreServices</span><span class="p">;</span>
+
+<span class="n">UIImagePickerController</span> <span class="o">*</span><span class="n">ipc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImagePickerController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+
+<span class="n">NSArray</span> <span class="o">*</span><span class="n">availableTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImagePickerController</span> <span class="n">availableMediaTypesForSourceType</span><span class="p">:</span><span class="n">UIImagePickerControllerSourceTypeCamera</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">([</span><span class="n">availableTypes</span> <span class="n">containsObject</span><span class="p">:(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">kUTTypeMovie</span><span class="p">])</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">ipc</span> <span class="n">setMediaTypes</span><span class="p">:</span><span class="err">@</span><span class="p">[(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">kUTTypeMovie</span><span class="p">]];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>8.UIMenuController无法显示的真相</h3>
+<p>要显示<code>UIMenuController</code>对象，必须要满足一个条件：显示<code>UIMenuController</code>对象的<code>UIView</code>对象必须是当前<code>UIWindow</code>对象的第一响应对象。也就是说，对于<code>someView</code>上需要显示<code>UIMenuController</code>，首先需要<code>[someView becomeFirstResponder];</code>。而且需要覆盖<code>someView.m</code>中<code>canBecomeFirstResponder</code>方法，使其return YES。</p>
+<h3>9.线程安全的单例</h3>
+<p>代码如下：</p>
+<div class="highlight"><pre><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedStore</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="n">SomeStore</span> <span class="o">*</span><span class="n">sharedStore</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+
+    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sharedStore</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initPrivate</span><span class="p">];</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="n">sharedStore</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>10.用Core Graphics绘制缩略图</h3>
+<p>代码如下：</p>
+<div class="highlight"><pre><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setThumbnailFromImage:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+<span class="p">{</span>
+    <span class="bp">CGSize</span> <span class="n">origImageSize</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+
+    <span class="c1">// 缩略图大小</span>
+    <span class="bp">CGRect</span> <span class="n">newRect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">);</span>
+
+    <span class="c1">// 确定缩放倍数并保持宽高比不变</span>
+    <span class="kt">float</span> <span class="n">ratio</span> <span class="o">=</span> <span class="n">MAX</span><span class="p">(</span><span class="n">newRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">origImageSize</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">newRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="n">origImageSize</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+
+    <span class="c1">// 根据当前设备的屏幕scaling factor创建透明的位图上下文</span>
+    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">newRect</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+
+    <span class="c1">// 创建表示圆角矩形的UIBezierPath对象</span>
+    <span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="n">newRect</span>
+                                                    <span class="nl">cornerRadius</span><span class="p">:</span><span class="mf">5.0</span><span class="p">];</span>
+
+    <span class="c1">// 根据UIBezierPath对象裁剪图形上下文</span>
+    <span class="p">[</span><span class="n">path</span> <span class="n">addClip</span><span class="p">];</span>
+
+    <span class="c1">// 让图片在缩略图绘制范围内居中</span>
+    <span class="bp">CGRect</span> <span class="n">projectRect</span><span class="p">;</span>
+    <span class="n">projectRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">origImageSize</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+    <span class="n">projectRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">origImageSize</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+    <span class="n">projectRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">newRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">projectRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+    <span class="n">projectRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">newRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">projectRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+
+    <span class="c1">// 在上下文中绘制图片</span>
+    <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">projectRect</span><span class="p">];</span>
+
+    <span class="c1">// 通过图形上下文得到UIImage对象，并将其赋给thumbnail属性</span>
+    <span class="bp">UIImage</span> <span class="o">*</span><span class="n">smallImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">thumbnail</span> <span class="o">=</span> <span class="n">smallImage</span><span class="p">;</span>
+
+    <span class="c1">// 清理图形上下文</span>
+    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>11.歧义布局视图的调试</h3>
+<p><code>UIWindow</code>有一个名为<code>_autolayoutTrace</code>的私有实例方法，该方法返回一个表示<code>UIWindow</code>中整个视图层次结构的字符串。对于有歧义布局的视图，<code>_autolayoutTrace</code>会使用<code>AMBIGUOUS LOYOUT（有歧义的布局）</code>标记出来。</p>
+<p>可以在显示视图的代码（如<code>viewWillAppear</code>）中设置断点，然后</p>
+<div class="highlight"><pre><span class="p">(</span><span class="n">lldb</span><span class="p">)</span> <span class="n">po</span> <span class="p">[[</span><span class="bp">UIWindow</span> <span class="n">keyWindow</span><span class="p">]</span> <span class="n">_autolayoutTrace</span><span class="p">]</span>
+</pre></div>
+
+
+<p>就可以惹。</p>
+<p>笔记基本就这些了吧，基本算是个备忘录。其他还有很多小东西直接google可得的就不记录了。</p>
+<p>以上。</p>
+<p>Icyjade_White</p>
+<p>2015年07月05日</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: 2015-07-04 23:31:51</p>
+    <p>Category: <a href="/ios/index.html">iOS</a>
+ &ndash; Tags:
+      <a href="/tag/ios.html">iOS</a>    </p>
+  </div>
+
+  <div id="article_comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_identifier = "ios/iOS-development-notes-2.html";
+        (function() {
+             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+             dsq.src = 'http://icyjadewhite.disqus.com/embed.js';
+             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+         })();
+    </script>
+  </div>
+
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Icyjade_White. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>. </p>
+    </div>
+  </main>
+</body>
+</html>

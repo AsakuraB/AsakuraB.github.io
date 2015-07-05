@@ -90,11 +90,11 @@
 
 <p>总的来说就是PUT=POST，DELETE=GET。</p>
 <h3>3.这个UIDatePicker（UIPickerView）加载于哪个图层？</h3>
-<p><img alt="" src="http://ww1.sinaimg.cn/mw690/6395d342gw1eptqw3w2jdj204v08nwej.jpg" /></p>
+<p><img alt="通讯录App截屏" src="http://ww1.sinaimg.cn/mw690/6395d342gw1eptqw3w2jdj204v08nwej.jpg" /></p>
 <p>在UITableViewController中，当需要弹出UIPickerView的时候，总是不知道应该把这个Picker添加到哪个图层上。因为<code>"self.view = self.tableview"</code>，当你使用<code>[self.view addSubview:pickerView];</code>时，PickerView会添加到<code>"ScrollView"</code>上，并且跟随TableView的上下滚动而滑动。</p>
 <p>我们想要的效果是Picker悬浮于屏幕底部，不跟随TableView滚动的。最标准的效果当然是借鉴iOS系统自带App了。</p>
 <p>通讯录App中，我惊讶的发现这个Picker不仅可以一直悬浮，当从Picker上方滑动至Picker中，这个Picker会像键盘一样被拖动着一起往下滑。当时我的表情是这样的</p>
-<p><img alt="" src="http://ww3.sinaimg.cn/mw690/6395d342jw1epttvgdex5j202a023mx3.jpg" /></p>
+<p><img alt="秀秀双剑" src="http://ww3.sinaimg.cn/mw690/6395d342jw1epttvgdex5j202a023mx3.jpg" /></p>
 <p>为何这个Picker可以这么叼？这是加在哪个层才可以达到这样的效果？</p>
 <p>搜了半天最终在stackoverflow中找到了<a href="http://stackoverflow.com/questions/1275633/elegantly-replace-iphone-keyboard-with-uipickerview">答案</a>：</p>
 <div class="highlight"><pre>Just set the UITextField&#39;s inputView property to a UIPickerView.
@@ -102,7 +102,7 @@
 
 
 <p>瞬间我感觉大脑就爆炸了。原来这特么是个TextField不是Button或者Label！！原来这个PickerView就是键盘！！这时我的表情是这样的</p>
-<p><img alt="" src="http://ww3.sinaimg.cn/mw690/6395d342jw1eptujziwhoj204o039jrf.jpg" /></p>
+<p><img alt="秀秀大扇子" src="http://ww3.sinaimg.cn/mw690/6395d342jw1eptujziwhoj204o039jrf.jpg" /></p>
 <p>附：inputView property是基于UIResponder的属性。</p>
 <div class="highlight"><pre>@interface UIResponder (UIResponderInputViewAdditions)
 // Called and presented when object becomes first responder.  Goes up the responder chain.

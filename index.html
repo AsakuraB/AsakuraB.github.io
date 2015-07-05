@@ -50,6 +50,23 @@
 
 <article>
   <div class="article_title">
+    <h3><a href="/ios/iOS-development-notes-2.html">《iOS编程(第4版)》读书笔记</a></h3>
+  </div>
+  <div class="article_text">
+    <p>上回说到买了本新书：</p>
+<p><a href="http://www.amazon.cn/gp/product/B00RWORA1O?psc=1&amp;ref_=oh_aui_detailpage_o00_s00">iOS编程(第4版) IOS Programming,4th Edition-The Big Nerd Ranch Guide</a></p>
+<p>大体上可以算是精读完毕。读书过程中记了不少笔记，在这里总结一下。有些东西都是老生常谈的了，就当是巩固加深吧~</p>
+<h3>1.关于MVC的理解</h3>
+<p>当用户和视图对象（Views）产生交互之后，视图首先向控制器对象（Controller）发送消息，控制器更新模型对象(Model)，然后控制器对象从模型对象获取视图“感兴趣”的数据，再根据模型对象的变化更新视图。</p>
+<p>需要注意的是，模型对象和视图对象之间没有直接产生联系，而是由控制器对象负责彼此之间的消息发送和数据传递。</p>
+<h3>2.内存管理特性</h3>
+<p>内存管理特性（Memory management attribute）有四种可选类型：<code>strong</code>、<code>weak</code>、<code>copy</code>、<code>unsafe_unretained</code>。</p>
+<p>对于不指向任何对象的属性（例如<code>int i</code>），不需要做内存管理，这时应选用 ...</p>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
     <h3><a href="/life/monthly-diary-7-12.html">消失4个月的说明</a></h3>
   </div>
   <div class="article_text">
